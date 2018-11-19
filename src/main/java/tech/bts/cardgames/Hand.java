@@ -34,8 +34,4 @@ public class Hand {
         return new Card(magic, strength, intelligence);
     }
 
-    @Override
-    public String toString() {
-        return "Hand 1 is:" + hand1 + " and " + "Hand 2 is: " + hand2;
-    }
 }
