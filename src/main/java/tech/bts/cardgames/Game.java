@@ -88,7 +88,7 @@ public class Game {
 
     public List<Card> pickedCard (String username) {
 
-        return List<Card> pickedCard;
+        return List<Card> pickedCard(username);
 
     }
 
