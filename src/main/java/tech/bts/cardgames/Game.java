@@ -1,5 +1,7 @@
 package tech.bts.cardgames;
 
+import tech.bts.cardgames.Exceptions.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ public class Game {
     private State state;
     private List<String> usernames;
     private int countDiscard;
+    private List<Card> pickedCard;
 
     private Map<String,Card> pickedCardByUsername;
 
@@ -22,6 +25,7 @@ public class Game {
         this.usernames = new ArrayList<>();
         this.pickedCardByUsername = new HashMap<>();
         this.countDiscard = 0;
+        this.pickedCard = new ArrayList<>();
 
     }
 

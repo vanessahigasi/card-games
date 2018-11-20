@@ -1,4 +1,4 @@
-package tech.bts.cardgames;
+package tech.bts.cardgames.Exceptions;
 
 public class CannotDicardWithoutPickingACard extends RuntimeException {
 }

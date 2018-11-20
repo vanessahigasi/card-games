@@ -1,8 +1,8 @@
 package tech.bts.cardgames;
 
 import org.junit.Test;
+import tech.bts.cardgames.Exceptions.*;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -212,5 +212,16 @@ public class GameShould {
         Card Card3 = game.pickCard("peter");
         game.discard("peter");
 
+    }
+
+    @Test
+    public void pick_and_not_discarding_the_card() {
+
+        Deck deck = new Deck();
+        Card card1 = new Card(3,2,5);
+        Card card2 = new Card(2,7,1);
+        deck.add(card1);
+        deck.add(card2);
+        Game game = new Game(deck);
     }
 }
