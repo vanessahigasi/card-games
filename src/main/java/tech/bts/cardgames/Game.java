@@ -56,16 +56,14 @@ public class Game {
             throw new PlayerNotInTheGameException();
         }
 
+        if (state != State.PLAYING) {
+            throw new NotPlayingException();
+        }
+
         Card pickedCard = pickedCardByUsername.get(username);
         if (pickedCard != null) {
             throw new CannotPick2CardsInARowException();
         }
-
-        if (getState() == State.OPEN) {
-            throw new CannotPickCardWhenIsNotPlayingException();
-        }
-
-
 
         Card newPickedCard = deck.pickCard();
 
@@ -76,25 +74,27 @@ public class Game {
 
     public void discard(String username) {
 
-        Card pickedCard = pickedCardByUsername.get(username);
-        if (pickedCard == null) {
-            throw new CannotDicardWithoutPickingACard();
+
+        if (!pickedCardByUsername.containsKey(username)) {
+            throw new DidNotPickCardException();
         }
 
         countDiscard ++;
 
         if (countDiscard > 2) {
-            throw new CannotDiscardMoreThan2Cards();
+            throw new DidNotPickCardException();
         }
 
         pickedCardByUsername.remove(username);
     }
 
+    /**
     public List<Card> pickedCard (String username) {
 
         return List<Card> pickedCard(username);
 
     }
+     */
 
 
     /**

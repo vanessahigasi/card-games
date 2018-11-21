@@ -165,17 +165,19 @@ public class GameShould {
         assertThat(pickedCard2, is(card1));
     }
 
-    @Test (expected = CannotPickCardWhenIsNotPlayingException.class)
+    @Test (expected = NotPlayingException.class)
     public void not_allow_picking_card_if_state_is_not_playing() {
 
-        Deck deck = new Deck();
-        deck.add(new Card(3,2,5));
-        
-        Game game = new Game(deck);
+        Game game = new Game(new Deck());
+
+        assertThat(game.getState(),is(Game.State.OPEN));
+
         game.join("mary");
+
         game.pickCard("mary");
     }
 
+    /**
     @Test (expected = CannotDicardWithoutPickingACard.class)
     public void allow_discard_only_if_previous_picking_a_card() {
 
@@ -187,30 +189,17 @@ public class GameShould {
         game.join("ben");
         game.discard("steve");
     }
+     */
 
-    @Test (expected = CannotDiscardMoreThan2Cards.class)
-    public void not_allow_discarding_more_than_2_cards() {
+    @Test (expected = DidNotPickCardException.class)
+    public void not_allow_discard_without_picking() {
 
-        Deck deck = new Deck();
-        Card card1 = new Card(3,2,5);
-        Card card2 = new Card(2,7,1);
-        Card card3 = new Card(1,6,3);
-
-        deck.add(card1);
-        deck.add(card2);
-        deck.add(card3);
-
-        Game game = new Game(deck);
+        Game game = new Game(new Deck());
 
         game.join("susan");
         game.join("peter");
 
-        Card Card1 = game.pickCard("peter");
-        game.discard("peter");
-        Card Card2 = game.pickCard("peter");
-        game.discard("peter");
-        Card Card3 = game.pickCard("peter");
-        game.discard("peter");
+        game.discard("susan");
 
     }
 
