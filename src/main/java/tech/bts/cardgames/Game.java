@@ -13,10 +13,9 @@ public class Game {
     private final Deck deck;
     private State state;
     private List<String> usernames;
-    private int countDiscard;
-    private List<Card> pickedCard;
 
     private Map<String,Card> pickedCardByUsername;
+    private Map<String,Integer> discardByUsername;
 
 
     public Game(Deck deck) {
@@ -24,8 +23,7 @@ public class Game {
         this.state = State.OPEN;
         this.usernames = new ArrayList<>();
         this.pickedCardByUsername = new HashMap<>();
-        this.countDiscard = 0;
-        this.pickedCard = new ArrayList<>();
+        this.discardByUsername = new HashMap<>();
 
     }
 
@@ -38,6 +36,8 @@ public class Game {
         if (state != State.OPEN) {
             throw new JoiningNotAllowedException();
         }
+
+        discardByUsername.put(username,0);
 
         usernames.add(username);
 
@@ -79,11 +79,14 @@ public class Game {
             throw new DidNotPickCardException();
         }
 
-        countDiscard ++;
+        int discards = discardByUsername.get(username);
 
-        if (countDiscard > 2) {
-            throw new DidNotPickCardException();
+        //users has already discarded 2 cards
+        if (discards == 2) {
+            throw new  TooManyDiscardsException();
         }
+
+        discardByUsername.put(username, discards + 1);
 
         pickedCardByUsername.remove(username);
     }

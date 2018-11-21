@@ -177,19 +177,27 @@ public class GameShould {
         game.pickCard("mary");
     }
 
-    /**
-    @Test (expected = CannotDicardWithoutPickingACard.class)
-    public void allow_discard_only_if_previous_picking_a_card() {
+
+    @Test (expected = TooManyDiscardsException.class)
+    public void not_allow_more_than_2_discards() {
 
         Deck deck = new Deck();
         deck.add(new Card(3,2,5));
+        deck.add(new Card(3,2,5));
+        deck.add(new Card(3,2,5));
 
         Game game = new Game(deck);
-        game.join("steve");
+        game.join("susan");
         game.join("ben");
-        game.discard("steve");
+
+        game.pickCard("susan");
+        game.discard("susan");
+        game.pickCard("susan");
+        game.discard("susan");
+        game.pickCard("susan");
+        game.discard("susan");
     }
-     */
+
 
     @Test (expected = DidNotPickCardException.class)
     public void not_allow_discard_without_picking() {
