@@ -7,16 +7,27 @@ import java.util.*;
 public class Game {
 
     public enum State { OPEN, PLAYING }
+
+    public long id;
     private final Deck deck;
     private State state;
     private Map<String,Player> playerByUsername;
 
 
     public Game(Deck deck) {
+        this.id = id;
         this.deck = deck;
         this.state = State.OPEN;
         this.playerByUsername = new HashMap<>();
 
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public State getState() {
