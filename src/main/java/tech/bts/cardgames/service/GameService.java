@@ -29,4 +29,11 @@ public class GameService {
 
         gameRepo.create(game);
     }
+
+    public void joinGame(JoinGame joinGame) {
+
+        Game game= gameRepo.getById(joinGame.getGameId());
+        game.join(joinGame.getUsername());
+
+    }
 }
