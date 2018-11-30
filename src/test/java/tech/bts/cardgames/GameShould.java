@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
  *
  * Picking cards:
  * - When the game is PLAYING, any player that joined the game can pick a card.
- * - TODO: Picking is only allowed when PLAYING
+ * - Picking is only allowed when PLAYING
  * - After picking a card, a player must keep it or discard it, before picking another one.
  * - A player can only discard 2 cards (i.e. must pick 3 cards).
  *
