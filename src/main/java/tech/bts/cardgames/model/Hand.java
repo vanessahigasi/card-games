@@ -1,4 +1,4 @@
-package tech.bts.cardgames;
+package tech.bts.cardgames.model;
 
 import java.util.List;
 

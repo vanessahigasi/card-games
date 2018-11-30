@@ -1,9 +1,13 @@
 package tech.bts.cardgames;
 
 import org.junit.Test;
-import tech.bts.cardgames.Exceptions.*;
+import tech.bts.cardgames.exceptions.*;
+import tech.bts.cardgames.model.Card;
+import tech.bts.cardgames.model.Deck;
+import tech.bts.cardgames.model.Game;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -60,7 +64,7 @@ public class GameShould {
 
         //3. assert/check something you expect
         assertThat(game.getState(), is(Game.State.OPEN));
-        assertThat(game.getPlayerName(), is(Arrays.asList("john")));
+        assertThat(game.getPlayerName(), is(new HashSet<>(Arrays.asList("john"))));
 
 
     }
@@ -73,7 +77,8 @@ public class GameShould {
         game.join("john");
         game.join("mary");
 
-        assertThat(game.getState(), is(Game.State.PLAYING));
+        assertThat(game.getState(),is(Game.State.PLAYING));
+        assertThat(game.getPlayerName(), is(new HashSet<>(Arrays.asList("john", "mary"))));
 
     }
 

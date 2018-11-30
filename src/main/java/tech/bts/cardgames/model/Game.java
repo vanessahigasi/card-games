@@ -1,29 +1,21 @@
-package tech.bts.cardgames;
+package tech.bts.cardgames.model;
 
-import tech.bts.cardgames.Exceptions.*;
+import tech.bts.cardgames.exceptions.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
 
     public enum State { OPEN, PLAYING }
     private final Deck deck;
     private State state;
-    private List<String> usernames;
-
-    private Map<String,Card> pickedCardByUsername;
-    private Map<String,Integer> discardByUsername;
+    private Map<String,Player> playerByUsername;
 
 
     public Game(Deck deck) {
         this.deck = deck;
         this.state = State.OPEN;
-        this.usernames = new ArrayList<>();
-        this.pickedCardByUsername = new HashMap<>();
-        this.discardByUsername = new HashMap<>();
+        this.playerByUsername = new HashMap<>();
 
     }
 
@@ -37,22 +29,22 @@ public class Game {
             throw new JoiningNotAllowedException();
         }
 
-        discardByUsername.put(username,0);
+        Player player = new Player(username);
 
-        usernames.add(username);
+        playerByUsername.put(username,player);
 
-        if (usernames.size() == 2) {
+        if (playerByUsername.size() == 2) {
             state = State.PLAYING;
         }
     }
 
-    public List<String> getPlayerName() {
-        return usernames;
+    public Set<String> getPlayerName() {
+        return playerByUsername.keySet();
     }
 
     public Card pickCard(String username) {
 
-        if (!usernames.contains(username)) {
+        if (!playerByUsername.containsKey(username)) {
             throw new PlayerNotInTheGameException();
         }
 
@@ -60,44 +52,42 @@ public class Game {
             throw new NotPlayingException();
         }
 
-        Card pickedCard = pickedCardByUsername.get(username);
+        Player player = playerByUsername.get(username);
+
+        Card pickedCard = player.getPickedCard();
+
         if (pickedCard != null) {
             throw new CannotPick2CardsInARowException();
         }
 
         Card newPickedCard = deck.pickCard();
 
-        pickedCardByUsername.put(username,newPickedCard);
+        player.setPickedCard(newPickedCard);
 
         return newPickedCard;
     }
 
     public void discard(String username) {
 
+        Player player = playerByUsername.get(username);
 
-        if (!pickedCardByUsername.containsKey(username)) {
+        Card pickedCard = player.getPickedCard();
+
+        if (pickedCard == null) {          //if did not pick a card
             throw new DidNotPickCardException();
         }
 
-        int discards = discardByUsername.get(username);
+        int discards = player.getDicardCount();
 
         //users has already discarded 2 cards
         if (discards == 2) {
             throw new  TooManyDiscardsException();
         }
 
-        discardByUsername.put(username, discards + 1);
+        player.setDicardCount(discards + 1);
 
-        pickedCardByUsername.remove(username);
+        player.setPickedCard(null);
     }
-
-    /**
-    public List<Card> pickedCard (String username) {
-
-        return List<Card> pickedCard(username);
-
-    }
-     */
 
 
     /**

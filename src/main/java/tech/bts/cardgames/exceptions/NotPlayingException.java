@@ -1,4 +1,4 @@
-package tech.bts.cardgames.Exceptions;
+package tech.bts.cardgames.exceptions;
 
 public class NotPlayingException extends RuntimeException {
 }
