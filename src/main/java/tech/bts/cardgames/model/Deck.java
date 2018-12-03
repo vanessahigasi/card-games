@@ -44,7 +44,7 @@ public class Deck {
         this.cards.set(index1,card2);
         */
 
-        for (int i = 0; i < this.cards.size() -1; i++) {
+        for (int i = 0; i < this.cards.size(); i++) {
 
             //pick a random index and swap it with card at index 'i'
 
