@@ -12,12 +12,12 @@ public class Player {
         this.pickedCard = null;
     }
 
-    public int getDicardCount() {
+    public int getDiscardCount() {
         return discardCount;
     }
 
-    public void setDicardCount(int dicardCount) {
-        this.discardCount = dicardCount;
+    public void setDiscardCount(int discardCount) {
+        this.discardCount = discardCount;
     }
 
     public Card getPickedCard() {

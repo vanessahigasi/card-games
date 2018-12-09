@@ -50,6 +50,12 @@ public class GameService {
     }
 
     public List<Game> getAllGames() {
+
         return gameRepo.getAll();
+    }
+
+    public Game getGameById(long id) {
+
+        return gameRepo.getById(id);
     }
 }

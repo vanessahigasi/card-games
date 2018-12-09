@@ -88,14 +88,14 @@ public class Game {
             throw new DidNotPickCardException();
         }
 
-        int discards = player.getDicardCount();
+        int discards = player.getDiscardCount();
 
         //users has already discarded 2 cards
         if (discards == 2) {
             throw new  TooManyDiscardsException();
         }
 
-        player.setDicardCount(discards + 1);
+        player.setDiscardCount(discards + 1);
 
         player.setPickedCard(null);
     }
