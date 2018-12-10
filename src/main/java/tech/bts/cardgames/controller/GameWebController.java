@@ -5,6 +5,7 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,13 +85,10 @@ public class GameWebController {
 
     }
 
-    @RequestMapping(method = GET, path = "/{gameId}/join")
-    public void joinGame(HttpServletResponse response, @PathVariable long gameId) throws IOException {
+    @RequestMapping(method = POST , path = "/join")
+    public void joinGame(HttpServletResponse response, GameUser gameUser) throws IOException {
 
-       gameService.joinGame(new GameUser(gameId,"Juan"));
-
-       response.sendRedirect("/games/" + gameId);
-
+       gameService.joinGame(gameUser);
+       response.sendRedirect("/games/" + gameUser.getGameId());
     }
-
 }
