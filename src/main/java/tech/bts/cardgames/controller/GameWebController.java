@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tech.bts.cardgames.model.Game;
 import tech.bts.cardgames.service.GameService;
 import tech.bts.cardgames.service.GameUser;
+import tech.bts.cardgames.util.HandlebarsUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 public class GameWebController {
 
     private GameService gameService;
+    private Handlebars handlebars;
 
     @Autowired
     public GameWebController(GameService gameService) {
@@ -31,25 +33,14 @@ public class GameWebController {
     }
 
     @RequestMapping(method = GET)
-    public String getAllGames() {
+    public String getAllGames() throws IOException {
 
-        String result = "<h1>List of games</h1>\n";
+        Template template = HandlebarsUtil.compile("game-list");
 
-        result += "<p><a href=\"/games/create\">Create game</a></p>\n";
+        Map<String,Object> values = new HashMap<>();
+        values.put("games",gameService.getAllGames());
 
-        result += "<ol>\n";
-
-        for (Game game : gameService.getAllGames()) {
-
-            result += "<li><a target=\"_blank\" href=\"/games/"  +
-                      + game.getId()   +  "\">game " + game.getId() + "</a> is " +
-                    game.getState() +  "</li>\n";
-        }
-
-        result += "</ol>\n";
-
-        return result;
-
+        return template.apply(values);
     }
 
     @RequestMapping(method = GET, path = "/{gameId}")
@@ -58,12 +49,8 @@ public class GameWebController {
         Game game = gameService.getGameById(gameId);
 
         //create handlebars processor
-        TemplateLoader loader = new ClassPathTemplateLoader();
-        loader.setPrefix("/templates");
-        loader.setSuffix(".hbs");
-        Handlebars handlebars = new Handlebars(loader);
 
-        Template template = handlebars.compile("game-detail");
+        Template template = HandlebarsUtil.compile("game-detail");
 
         Map<String,Object> values = new HashMap<>();
         values.put("game",game);
@@ -86,9 +73,7 @@ public class GameWebController {
 
         return result;
         */
-
     }
-
 
     @RequestMapping(method = GET, path = "/create")
     public  void createGame(HttpServletResponse response) throws IOException {
