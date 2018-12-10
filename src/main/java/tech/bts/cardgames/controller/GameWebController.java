@@ -8,8 +8,8 @@ import tech.bts.cardgames.model.Game;
 import tech.bts.cardgames.service.GameService;
 import tech.bts.cardgames.service.GameUser;
 
-import java.util.Collection;
-import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -27,7 +27,23 @@ public class GameWebController {
     @RequestMapping(method = GET)
     public String getAllGames() {
 
-        return buildGameList();
+        String result = "<h1>List of games</h1>\n";
+
+        result += "<p><a href=\"/games/create\">Create game</a></p>\n";
+
+        result += "<ol>\n";
+
+        for (Game game : gameService.getAllGames()) {
+
+            result += "<li><a target=\"_blank\" href=\"/games/"  +
+                      + game.getId()   +  "\">game " + game.getId() + "</a> is " +
+                    game.getState() +  "</li>\n";
+        }
+
+        result += "</ol>\n";
+
+        return result;
+
     }
 
     @RequestMapping(method = GET, path = "/{gameId}")
@@ -35,17 +51,16 @@ public class GameWebController {
 
         Game game = gameService.getGameById(gameId);
 
-        String result = "<a href=\"/games\">Go back to the games</a>";
+        String result = "";
 
         result +=
+                "<a href=\"/games\">Go back to game list</a>" +
                 "<h1>Game " + game.getId() + "</h1>" +
                 "<p>State " + game.getState() + "</p>" +
                 "<p>Player " + game.getPlayerName() + "</p>";
 
         if(game.getState() == Game.State.OPEN) {
-            result += "<a href=\"/games/"  +
-                    + game.getId()   +  "/join/" + game.getId()+ "\">Join the game</a>";
-
+            result += "<a href=\"/games/" + game.getId() + "/join\">Join the game</a>";
         }
 
         return result;
@@ -54,38 +69,20 @@ public class GameWebController {
 
 
     @RequestMapping(method = GET, path = "/create")
-    public  String createGame() {
+    public  void createGame(HttpServletResponse response) throws IOException {
 
         gameService.createGame();
 
-        return buildGameList();
+        response.sendRedirect("/games");
 
     }
 
-    @RequestMapping(method = GET, path = "/join/{gameId}")
-    public void joinGame(@PathVariable long gameId) {
+    @RequestMapping(method = GET, path = "/{gameId}/join")
+    public void joinGame(HttpServletResponse response, @PathVariable long gameId) throws IOException {
 
        gameService.joinGame(new GameUser(gameId,"Juan"));
 
-    }
-
-    private String buildGameList() {
-
-        String result = "<h1>List of games</h1>";
-
-        result += "<p><a href=\"/games/create\">Create game</a></p>";
-
-        for (Game game : gameService.getAllGames()) {
-
-            result += "<ul><a target=\"_blank\" href=\"/games/"  +
-                      + game.getId()   +  "\">game " + game.getId() + "</a> is " +
-                    game.getState() +  "</ul>";
-        }
-
-        return result;
-
-
-
+       response.sendRedirect("/games/" + gameId);
 
     }
 
