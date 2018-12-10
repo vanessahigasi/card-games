@@ -1,5 +1,9 @@
 package tech.bts.cardgames.controller;
 
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
+import com.github.jknack.handlebars.io.TemplateLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +14,8 @@ import tech.bts.cardgames.service.GameUser;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -47,10 +53,25 @@ public class GameWebController {
     }
 
     @RequestMapping(method = GET, path = "/{gameId}")
-    public String getGameById(@PathVariable long gameId) {
+    public String getGameById(@PathVariable long gameId) throws IOException {
 
         Game game = gameService.getGameById(gameId);
 
+        //create handlebars processor
+        TemplateLoader loader = new ClassPathTemplateLoader();
+        loader.setPrefix("/templates");
+        loader.setSuffix(".hbs");
+        Handlebars handlebars = new Handlebars(loader);
+
+        Template template = handlebars.compile("game-detail");
+
+        Map<String,Object> values = new HashMap<>();
+        values.put("game",game);
+        values.put("gameIsOpen", game.getState() == Game.State.OPEN);
+
+        return template.apply(values);
+
+        /*
         String result = "";
 
         result +=
@@ -64,6 +85,7 @@ public class GameWebController {
         }
 
         return result;
+        */
 
     }
 
