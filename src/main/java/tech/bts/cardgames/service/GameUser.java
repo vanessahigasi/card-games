@@ -22,7 +22,7 @@ public class GameUser {
         this.gameId = gameId;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username)     {
         this.username = username;
     }
 
