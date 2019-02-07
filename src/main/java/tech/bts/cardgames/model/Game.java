@@ -49,7 +49,7 @@ public class Game {
         }
     }
 
-    public Set<String> getPlayerName() {
+    public Set<String> getPlayerNames() {
         return playerByUsername.keySet();
     }
 

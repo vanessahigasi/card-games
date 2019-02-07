@@ -64,7 +64,7 @@ public class GameShould {
 
         //3. assert/check something you expect
         assertThat(game.getState(), is(Game.State.OPEN));
-        assertThat(game.getPlayerName(), is(new HashSet<>(Arrays.asList("john"))));
+        assertThat(game.getPlayerNames(), is(new HashSet<>(Arrays.asList("john"))));
 
 
     }
@@ -78,7 +78,7 @@ public class GameShould {
         game.join("mary");
 
         assertThat(game.getState(),is(Game.State.PLAYING));
-        assertThat(game.getPlayerName(), is(new HashSet<>(Arrays.asList("john", "mary"))));
+        assertThat(game.getPlayerNames(), is(new HashSet<>(Arrays.asList("john", "mary"))));
 
     }
 

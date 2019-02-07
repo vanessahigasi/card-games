@@ -66,7 +66,7 @@ public class GameWebController {
                 "<a href=\"/games\">Go back to game list</a>" +
                 "<h1>Game " + game.getId() + "</h1>" +
                 "<p>State " + game.getState() + "</p>" +
-                "<p>Player " + game.getPlayerName() + "</p>";
+                "<p>Player " + game.getPlayerNames() + "</p>";
 
         if(game.getState() == Game.State.OPEN) {
             result += "<a href=\"/games/" + game.getId() + "/join\">Join the game</a>";

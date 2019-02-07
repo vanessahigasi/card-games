@@ -4,10 +4,10 @@ const urlParams = new URLSearchParams(window.location.search);
 const gameId = urlParams.get('gameId');
 console.log("gameId = " + gameId);
 
-//const gamesPromise = fetch("http://localhost:8080/api/games"); //get the url
-const gamesPromise = axios.get("http://localhost:8080/api/games" + gameId);
+//const gamePromise = fetch("http://localhost:8080/api/games"); //get the url
+const gamePromise = axios.get("http://localhost:8080/api/games" + gameId);
 
-gamesPromise
+gamePromise
     //.then(x => x.json()) //converts the response to Json
     .then(function (response) {
 

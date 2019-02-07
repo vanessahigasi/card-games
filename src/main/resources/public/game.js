@@ -1,24 +1,34 @@
 console.log("Game js loaded!!!");
 
 const urlParams = new URLSearchParams(window.location.search);
-const gameId = urlParams.get('gameId');
-console.log("gameId = " + gameId);
+const gameId = urlParams.get('id');
 
-let url = "http://localhost:8080/api/games/" + gameId;
-console.log(url);
+axios.get("/api/games/" + gameId)
 
-const gamesPromise = fetch(url);
+    .then(function (response) {
 
-gamesPromise
-    .then(x => x.json()) //converts the response to Json
-    .then(function (game) {
-        //This function will be called when the data comes
-        console.log(game);
-
-            //Display the games in HTML
-
-            const p = document.createElement("p");
-            p.textContent = `The game ${game.id} is ${game.state}`;
-            const container = document.getElementById("container");
-            container.appendChild(p);
+        const game = response.data;
+        displayGame(game);
+    })
+    .catch( function (error) {
+        displayError(error);
     });
+
+
+function displayGame(game) {
+
+    let gameContainer = document.getElementById("game-container");
+
+    const p = document.createElement("p");
+    p.textContent = `The game ${game.id} is ${game.state}, and players are ${game.playerNames}`;
+    gameContainer.appendChild(p);
+}
+
+function displayError(error) {
+
+    let gameContainer = document.getElementById("game-container");
+
+    const p = document.createElement("p");
+    p.textContent = `The game could not be loaded`;
+    gameContainer.appendChild(p);
+}
