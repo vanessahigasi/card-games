@@ -8,16 +8,18 @@ import tech.bts.cardgames.model.Card;
 import tech.bts.cardgames.model.Deck;
 import tech.bts.cardgames.model.Game;
 import tech.bts.cardgames.repository.GameRepository;
+import tech.bts.cardgames.repository.GameRepositoryJdbc;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
 public class GameService {
 
-    private GameRepository gameRepo;
+    private GameRepositoryJdbc gameRepo;
 
     @Autowired
-    public GameService(GameRepository gameRepo) {
+    public GameService(GameRepositoryJdbc gameRepo) {
         this.gameRepo = gameRepo;
     }
 
@@ -49,7 +51,7 @@ public class GameService {
 
     }
 
-    public List<Game> getAllGames() {
+    public Collection<Game> getAllGames() {
 
         return gameRepo.getAll();
     }

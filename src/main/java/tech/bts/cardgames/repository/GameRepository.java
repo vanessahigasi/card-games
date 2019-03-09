@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * stores games in a database*/
 @Repository
 public class GameRepository {
 

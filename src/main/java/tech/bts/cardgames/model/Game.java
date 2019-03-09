@@ -34,6 +34,10 @@ public class Game {
         return state;
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
+
     public void join(String username) {
 
         if (state != State.OPEN) {

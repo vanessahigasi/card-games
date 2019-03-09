@@ -16,7 +16,7 @@ public class Application {
     }
 
     //this executes all the time it restarts Springboot
-    @Bean
+    /*@Bean
     public CommandLineRunner createDummyData(GameService gameService) {
         return args -> {
 
@@ -29,6 +29,7 @@ public class Application {
             gameService.joinGame(new GameUser(game2.getId(),"homer"));
         };
     }
+    **/
 }
 
 
