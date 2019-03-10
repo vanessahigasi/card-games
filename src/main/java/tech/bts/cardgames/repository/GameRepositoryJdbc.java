@@ -27,7 +27,9 @@ public class GameRepositoryJdbc {
 
             Connection connection = dataSource.getConnection();
             Statement statement = connection.createStatement();
-            statement.executeUpdate("insert into games (state, players) + values  (" + game.getState() + " , null)");
+            statement.executeUpdate("insert into games (state, players) " + "values (" + game.getState() + " , null)");
+            String sql = "insert into games (state, players) values (game.getState()" + " , null)";
+            System.out.println(sql);
 
 
         } catch (Exception e) {
