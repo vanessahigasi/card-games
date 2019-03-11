@@ -1,11 +1,7 @@
 console.log("Games js loaded!!!");
 
-const urlParams = new URLSearchParams(window.location.search);
-const gameId = urlParams.get('gameId');
-console.log("gameId = " + gameId);
-
 //const gamePromise = fetch("http://localhost:8080/api/games"); //get the url
-const gamePromise = axios.get("http://localhost:8080/api/games" + gameId);
+const gamePromise = axios.get("http://localhost:8080/api/games");
 
 gamePromise
     //.then(x => x.json()) //converts the response to Json
@@ -20,9 +16,25 @@ gamePromise
 
         //Display the games in HTML
 
-        const p = document.createElement("p");
+        const p = document.createElement("div");
         p.textContent = `The game ${game.id} is ${game.state}`;
         gamesContainer.appendChild(p);
     }
 });
+
+var addGameBtn = document.querySelector("#add-game");
+
+addGameBtn.addEventListener("click", function () {
+
+    axios.post("/api/games")
+        .then(function (response) {
+                const gameId = response.data;
+                console.log("Game added: " + gameId);
+                location.reload();
+        })
+        .catch( function (error) {
+            console.log("ERROR", error);
+        });
+});
+
 

@@ -1,0 +1,22 @@
+
+<h1>Sample Page</h1>
+
+<script>
+
+    executeSeveralTimes(5, function () {
+        console.log("I am an anonymous function");
+    });
+
+    function sayHello() {
+        console.log("hello!!!")
+
+    }
+
+    function executeSeveralTimes(n, f) {
+        for (let i=1; i<=n; i++) {
+            console.log("Calling f function")
+            f();
+        }
+    }
+
+</script>

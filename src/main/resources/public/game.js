@@ -1,7 +1,7 @@
 console.log("Game js loaded!!!");
 
 const urlParams = new URLSearchParams(window.location.search);
-const gameId = urlParams.get('id');
+const gameId = urlParams.get('gameId');
 
 axios.get("/api/games/" + gameId)
 
@@ -32,3 +32,4 @@ function displayError(error) {
     p.textContent = `The game could not be loaded`;
     gameContainer.appendChild(p);
 }
+
