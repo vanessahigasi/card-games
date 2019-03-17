@@ -1,4 +1,7 @@
 package tech.bts.cardgames.repository;
+import com.github.jknack.handlebars.internal.lang3.ObjectUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import tech.bts.cardgames.model.Game;
 
@@ -8,32 +11,55 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+
 
 /**
  * stores games in a memory*/
 @Repository
 public class GameRepositoryJdbc {
 
-    private DataSource dataSource;
+    //private DataSource dataSource; //to get connection to the database
+    private JdbcTemplate jdbcTemplate;
 
     public GameRepositoryJdbc() {
-        this.dataSource = DataSourceUtil.getDataSourceInPath();
+        DataSource dataSource = DataSourceUtil.getDataSourceInPath();
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public void create(Game game) {
 
-        doWithStatement((statement) -> {
+        jdbcTemplate.update("insert into games (state, players)" +
+                " values ('" + game.getState() + "', NULL)");
 
-            return statement.executeUpdate("insert into games (state, players)" +
-                    " values ('" + game.getState() + "', NULL)");
-        });
+        /**doWithStatement((statement) -> {
+
+            String sql = "insert into games (state, players)" +
+                    " values ('" + game.getState() + "', NULL)";
+            return statement.executeUpdate(sql);
+        });*/
+    }
+
+    public void update(Game game) {
+
+        jdbcTemplate.update("update games set state = '" + game.getState() +
+                "', players = '" + " " + "' where id = '" + game.getId() + "'");
+    }
+
+    public void createOrUpdate(Game game) {
+
+        if(game.getState() == null ) {
+            create(game);
+        } else {
+            update(game);
+        }
     }
 
     public Game getById(long id) {
 
+        return jdbcTemplate.queryForObject("select * from games where id = " + id,
+                (rs1, rowNum) -> getGame(rs1));
+
+        /**
         return doWithStatement((statement -> {
 
             ResultSet rs = statement.executeQuery("select * from games where id = " + id);
@@ -42,17 +68,23 @@ public class GameRepositoryJdbc {
 
             if (rs.next()) {
                 game = getGame(rs);
-            }
+            }"
 
             rs.close();
 
             return game;
 
         }));
+         */
     }
 
     public Collection<Game> getAll() {
 
+        return jdbcTemplate.query(
+                "select * from games",
+                (rs1, rowNum) -> getGame(rs1));
+
+        /**
         return doWithStatement((statement -> {
 
             ResultSet rs = statement.executeQuery("select * from games");
@@ -69,6 +101,7 @@ public class GameRepositoryJdbc {
 
             return games;
         }));
+         */
     }
 
     private Game getGame(ResultSet rs) throws SQLException {
@@ -96,7 +129,7 @@ public class GameRepositoryJdbc {
     // Supplier --> function that doesn't take any argument and returns a value
     // Consumer --> function that takes an argument and doesn't return a value
 
-    /** This is similar to Consumer, but allows exceptions */
+    /** This is similar to Consumer, but allows exceptions
     private interface MyFunction<P, R> {
         R apply(P t) throws Exception;
     }
@@ -118,4 +151,5 @@ public class GameRepositoryJdbc {
             throw new RuntimeException(e);
         }
     }
+     */
 }
