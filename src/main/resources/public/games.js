@@ -37,4 +37,22 @@ addGameBtn.addEventListener("click", function () {
         });
 });
 
+/**
+var joinGameBtn = document.querySelector("#join-game");
+
+joinGameBtn.addEventListener("click", function () {
+
+    axios.post("/api/games")
+        .then(function (response) {
+            const gameId = response.data;
+            console.log("Game added: " + gameId);
+            location.reload();
+        })
+        .catch( function (error) {
+            console.log("ERROR", error);
+        });
+});
+*/
+
+
 
