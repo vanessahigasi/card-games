@@ -28,7 +28,7 @@ public class JdbcExample {
             String players = rs.getString("players");
 
             Game game = new Game(null); //create a game
-            game.setId(id);
+            game.setId((long) id);
 
             if(players != null) {
                 String[] names =  players.split(",");
