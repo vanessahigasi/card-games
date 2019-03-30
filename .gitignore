@@ -2,3 +2,5 @@
 .idea
 *.iml
 
+# npm library folder
+node_modules

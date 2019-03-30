@@ -15,9 +15,8 @@ public class SqlBuilder {
 
         String keywordBeforeCondition;
 
-        if(hasWhere) {
+        if (hasWhere) {
             keywordBeforeCondition = " and ";
-
         } else {
             keywordBeforeCondition = " where ";
         }
@@ -35,9 +34,14 @@ public class SqlBuilder {
 
     public SqlBuilder where(String column, String operator, Object value) {
 
-        System.out.println(value + " -> class: " + value.getClass());
+        //System.out.println(value + " -> class: " + value.getClass());
+
 
         String valueStr;
+
+        if (value == null) {
+            return this;
+        }
 
         if (value instanceof String) {
             valueStr = "'" + value + "'";
@@ -45,8 +49,8 @@ public class SqlBuilder {
             valueStr = value.toString();
         }
 
-        String condition = column + " " +  operator + " " + valueStr;
+        String condition = column + " " + operator + " " + valueStr;
 
-        return  where(condition);
+        return where(condition);
     }
 }

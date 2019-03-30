@@ -80,4 +80,25 @@ public class SqlBuilderTest {
                 " where type = 'TOOLS' and units >= 100" +
                 " and price <= 9.95 and available = true"));
     }
+
+    @Test
+    public void whereNullValueConditions() {
+
+        String productType = "TOOLS";
+
+        String sql = new SqlBuilder()
+                .from("products")
+                .where("type", "=", productType)
+                .where("units", ">=", null)
+                .where("price", "<=", null)
+                .where("available", "=", null)
+                .build();
+
+        assertThat(sql, is("select * from products" +
+                " where type = 'TOOLS'"));
+    }
+
+
+
+
 }
